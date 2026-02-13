@@ -1,14 +1,11 @@
 {
   "name": "ats-resume-generator",
-  "private": true,  "workspaces": [
-    "packages/*"
-  ],
+  "private": true,
   "scripts": {
-    "dev": "npm -w @ats-resume/web run dev",
-    "build": "npm -w @ats-resume/web run build",
-    "preview": "npm -w @ats-resume/web run preview",
-    "build:html": "npm -w @ats-resume/core run build",
-    "pdf": "npm -w @ats-resume/core run pdf"
+    "dev": "pnpm -C packages/web dev",
+    "build": "pnpm -C packages/web build",
+    "preview": "pnpm -C packages/web preview",
+    "setup": "pnpm install -r"
   },
   "devDependencies": {
     "@types/node": "^25.2.3"
