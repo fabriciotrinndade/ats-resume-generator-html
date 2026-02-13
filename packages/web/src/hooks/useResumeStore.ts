@@ -353,6 +353,10 @@ export function useResumeStore() {
 
   const toJson = useMemo(() => JSON.stringify(resume, null, 2), [resume]);
 
+  const resetResume = useCallback(() => {
+    dispatch({ type: "RESET" });
+  }, []);
+
   return {
     resume,
     dispatch,
@@ -361,6 +365,7 @@ export function useResumeStore() {
     loadExample,
     exportJson,
     exportPdf,
+    resetResume,
     toJson,
   };
 }

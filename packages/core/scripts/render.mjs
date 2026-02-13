@@ -109,6 +109,33 @@ function languagesHtml(langs) {
     .join("\n");
 }
 
+function contactHtml(data) {
+  const row1 = [];
+  if (data.email) row1.push(`<a href="mailto:${escapeHtml(data.email)}">${escapeHtml(data.email)}</a>`);
+  if (data.phone_display && data.phone_e164) row1.push(`<a href="tel:${escapeHtml(data.phone_e164)}">${escapeHtml(data.phone_display)}</a>`);
+  else if (data.phone_display) row1.push(escapeHtml(data.phone_display));
+  if (data.location) row1.push(escapeHtml(data.location));
+
+  const row2 = [];
+  if (data.linkedin_url) {
+    const t = data.linkedin_url.replace(/^https?:\/\//, "");
+    row2.push(`<a href="${data.linkedin_url}" target="_blank" rel="noopener noreferrer">${escapeHtml(t)}</a>`);
+  }
+  if (data.github_url) {
+    const t = data.github_url.replace(/^https?:\/\//, "");
+    row2.push(`<a href="${data.github_url}" target="_blank" rel="noopener noreferrer">${escapeHtml(t)}</a>`);
+  }
+  if (data.website_url) {
+    const t = data.website_url.replace(/^https?:\/\//, "");
+    row2.push(`<a href="${data.website_url}" target="_blank" rel="noopener noreferrer">${escapeHtml(t)}</a>`);
+  }
+
+  const parts = [];
+  if (row1.length) parts.push(row1.join(" | "));
+  if (row2.length) parts.push(row2.join(" | "));
+  return parts.join("<br />");
+}
+
 const html = tpl
   .replace(
     `<link rel="stylesheet" href="./style.css" />`,
@@ -116,16 +143,7 @@ const html = tpl
   )
   .replaceAll("{{NAME}}", escapeHtml(data.name))
   .replaceAll("{{TITLE}}", escapeHtml(data.title))
-  .replaceAll("{{EMAIL}}", escapeHtml(data.email))
-  .replaceAll("{{PHONE_E164}}", escapeHtml(data.phone_e164))
-  .replaceAll("{{PHONE_DISPLAY}}", escapeHtml(data.phone_display))
-  .replaceAll("{{LOCATION}}", escapeHtml(data.location))
-  .replaceAll("{{LINKEDIN_URL}}", data.linkedin_url)
-  .replaceAll("{{GITHUB_URL}}", data.github_url)
-  .replaceAll("{{WEBSITE_URL}}", data.website_url)
-  .replaceAll("{{LINKEDIN_TEXT}}", data.linkedin_url.replace(/^https?:\/\//, ""))
-  .replaceAll("{{GITHUB_TEXT}}", data.github_url.replace(/^https?:\/\//, ""))
-  .replaceAll("{{WEBSITE_TEXT}}", data.website_url.replace(/^https?:\/\//, ""))
+  .replaceAll("{{CONTACT_HTML}}", contactHtml(data))
   .replaceAll("{{SUMMARY}}", escapeHtml(data.summary))
   .replaceAll("{{SKILLS_HTML}}", skillsHtml(data.skills))
   .replaceAll("{{PROJECTS_HTML}}", projectsHtml(data.projects))

@@ -7,5 +7,8 @@
     "preview": "pnpm --filter @ats-resume/web preview",
     "build:html": "pnpm --filter @ats-resume/core build",
     "pdf": "pnpm --filter @ats-resume/core pdf"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3"
   }
 }

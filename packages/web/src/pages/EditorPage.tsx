@@ -1,4 +1,4 @@
-import { useState, useRef, type ChangeEvent } from "react";
+import { useState, useRef, useEffect, type ChangeEvent } from "react";
 import { useResumeStore } from "@/hooks/useResumeStore";
 import { usePreviewHtml } from "@/hooks/usePreviewHtml";
 import type { ResumeData } from "@ats-resume/core";
@@ -95,7 +95,7 @@ function Button({
     "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold shadow-xs transition-colors cursor-pointer";
   const variants = {
     primary:
-      "bg-brand-solid text-white hover:bg-brand-solid_hover border border-brand-solid",
+      "bg-brand-600 text-white hover:bg-brand-700 border border-brand-600",
     secondary:
       "bg-bg-primary text-text-secondary hover:bg-bg-primary_hover border border-border-primary",
     destructive:
@@ -108,6 +108,48 @@ function Button({
     >
       {children}
     </button>
+  );
+}
+
+/* ── confirmation modal ───────────────────────────────────────────── */
+
+function ConfirmModal({
+  open,
+  title,
+  message,
+  confirmLabel,
+  onConfirm,
+  onCancel,
+}: {
+  open: boolean;
+  title: string;
+  message: string;
+  confirmLabel: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* backdrop */}
+      <div className="absolute inset-0 bg-bg-overlay/60" onClick={onCancel} />
+
+      {/* dialog */}
+      <div className="relative bg-bg-primary rounded-xl border border-border-secondary shadow-xl p-6 max-w-md w-full mx-4">
+        <h3 className="text-lg font-semibold text-text-primary mb-2">
+          {title}
+        </h3>
+        <p className="text-sm text-text-secondary mb-6">{message}</p>
+        <div className="flex justify-end gap-3">
+          <Button variant="secondary" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button variant="destructive" onClick={onConfirm}>
+            {confirmLabel}
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -136,10 +178,13 @@ export default function EditorPage() {
     loadExample,
     exportJson,
     exportPdf,
+    resetResume,
   } = useResumeStore();
 
   const [activeTab, setActiveTab] = useState<TabId>("Personal");
   const [showPreview, setShowPreview] = useState(false);
+  const [showClearModal, setShowClearModal] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const previewHtml = usePreviewHtml(resume);
@@ -153,8 +198,32 @@ export default function EditorPage() {
     e.target.value = "";
   };
 
+  const handleExportPdf = async () => {
+    setIsExporting(true);
+    try {
+      await exportPdf();
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleClearConfirm = () => {
+    resetResume();
+    setShowClearModal(false);
+  };
+
   return (
     <div className="min-h-screen bg-bg-secondary">
+      {/* ── clear confirmation modal ── */}
+      <ConfirmModal
+        open={showClearModal}
+        title="Clear all data?"
+        message="This will erase all fields and sections you've filled in. This action cannot be undone."
+        confirmLabel="Clear All"
+        onConfirm={handleClearConfirm}
+        onCancel={() => setShowClearModal(false)}
+      />
+
       {/* ── header ────────────────────────────────── */}
       <header className="sticky top-0 z-30 bg-bg-primary border-b border-border-secondary shadow-xs">
         <div className="max-w-[var(--max-width-container)] mx-auto flex items-center justify-between px-4 py-3 gap-3 flex-wrap">
@@ -182,14 +251,24 @@ export default function EditorPage() {
             <Button variant="secondary" onClick={exportJson}>
               Export JSON
             </Button>
-            <Button variant="primary" onClick={exportPdf}>
-              Export PDF
+            <Button
+              variant="primary"
+              onClick={handleExportPdf}
+              className={isExporting ? "opacity-60 pointer-events-none" : ""}
+            >
+              {isExporting ? "Exporting…" : "Export PDF"}
             </Button>
             <Button
               variant="secondary"
               onClick={() => setShowPreview((p) => !p)}
             >
               {showPreview ? "Hide Preview" : "Show Preview"}
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => setShowClearModal(true)}
+            >
+              Clear All
             </Button>
           </div>
         </div>
@@ -395,6 +474,34 @@ function SummaryTab({
   );
 }
 
+/* ── Skill items input (local state to allow commas) ─────────────── */
+
+function SkillItemsInput({
+  items,
+  onChange,
+}: {
+  items: string[];
+  onChange: (v: string) => void;
+}) {
+  const [raw, setRaw] = useState(items.join(", "));
+
+  // Sync from external changes (e.g. Load Example, Import JSON)
+  useEffect(() => {
+    setRaw(items.join(", "));
+  }, [items.join(",")]);
+
+  return (
+    <input
+      type="text"
+      value={raw}
+      onChange={(e) => setRaw(e.target.value)}
+      onBlur={() => onChange(raw)}
+      placeholder="JavaScript, Node.js, React"
+      className="w-full rounded-lg border border-border-primary bg-bg-primary px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-2 focus:ring-focus-ring focus:border-border-brand transition-colors"
+    />
+  );
+}
+
 /* ── Skills ──────────────────────────────────────────────────────── */
 
 function SkillsTab({
@@ -440,8 +547,8 @@ function SkillsTab({
             </div>
             <div>
               <Label>Skills (comma-separated)</Label>
-              <Input
-                value={group.items.join(", ")}
+              <SkillItemsInput
+                items={group.items}
                 onChange={(v) =>
                   dispatch({
                     type: "SET_SKILL_GROUP_ITEMS",
@@ -449,7 +556,6 @@ function SkillsTab({
                     value: v,
                   })
                 }
-                placeholder="JavaScript, Node.js, React"
               />
             </div>
           </div>

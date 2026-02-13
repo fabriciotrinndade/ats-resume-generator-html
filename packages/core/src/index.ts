@@ -10,6 +10,7 @@ export type {
 
 export {
   renderResumeHtml,
+  renderContactHtml,
   escapeHtml,
   renderSkillsHtml,
   renderBulletsHtml,
@@ -18,5 +19,3 @@ export {
   renderEducationHtml,
   renderLanguagesHtml,
 } from "./renderer.js";
-
-export { exportPdf } from "./pdf-exporter.js";

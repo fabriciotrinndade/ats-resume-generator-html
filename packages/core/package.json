@@ -6,10 +6,12 @@
     "main": "./src/index.ts",
     "exports": {
         ".": "./src/index.ts",
+        "./pdf": "./src/pdf-exporter.ts",
         "./templates/*": "./templates/*",
         "./data/*": "./data/*"
     },
     "scripts": {
+        "postinstall": "npx playwright install chromium",
         "build": "node scripts/render.mjs",
         "pdf": "node scripts/export-pdf.mjs"
     },
