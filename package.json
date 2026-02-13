@@ -1,12 +1,11 @@
 {
-  "name": "cv-ats-html",
+  "name": "ats-resume-generator",
   "private": true,
-  "type": "module",
   "scripts": {
-    "build": "node scripts/render.mjs",
-    "pdf": "node scripts/export-pdf.mjs"
-  },
-  "dependencies": {
-    "playwright": "^1.50.0"
+    "dev": "pnpm --filter @ats-resume/web dev",
+    "build": "pnpm --filter @ats-resume/web build",
+    "preview": "pnpm --filter @ats-resume/web preview",
+    "build:html": "pnpm --filter @ats-resume/core build",
+    "pdf": "pnpm --filter @ats-resume/core pdf"
   }
 }

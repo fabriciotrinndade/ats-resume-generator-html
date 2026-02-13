@@ -1,0 +1,20 @@
+{
+  "name": "@ats-resume/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./templates/*": "./templates/*",
+    "./data/*": "./data/*"
+  },
+  "scripts": {
+    "build": "node scripts/render.mjs",
+    "pdf": "node scripts/export-pdf.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}

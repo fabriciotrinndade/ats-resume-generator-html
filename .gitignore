@@ -1,6 +1,9 @@
-# dependências
+# dependencies
 node_modules/
 
-# arquivos gerados
+# generated output
 dist/
 *.pdf
+
+# pnpm
+pnpm-lock.yaml
