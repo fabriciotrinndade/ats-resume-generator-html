@@ -5,5 +5,10 @@
     "api/export-pdf.ts": {
       "includeFiles": "packages/core/templates/**"
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/editor", "destination": "/index.html" },
+    { "source": "/editor/(.*)", "destination": "/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
