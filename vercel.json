@@ -10,6 +10,7 @@
     { "source": "/editor", "destination": "/index.html" },
     { "source": "/editor/(.*)", "destination": "/index.html" },
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" },
+    { "source": "/templates/(.*)", "destination": "/templates/$1" }
   ]
 }
