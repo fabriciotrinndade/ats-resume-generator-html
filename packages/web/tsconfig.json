@@ -21,7 +21,9 @@
     "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@ats-resume/core": ["../core/src/index.ts"],
+      "@ats-resume/core/*": ["../core/src/*"]
     }
   },
   "include": ["src", "vite-env.d.ts"],

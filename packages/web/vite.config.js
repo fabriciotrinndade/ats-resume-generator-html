@@ -1,20 +1,19 @@
+// packages/web/vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "path";
 import { readFileSync } from "fs";
 /**
- * Vite plugin that:
- * 1. Serves /templates/* and /data/* from packages/core at dev time.
- * 2. Exposes POST /api/export-pdf — receives ResumeData JSON,
- *    renders HTML with the core renderer, and returns a PDF via Playwright.
+ * Dev-only plugin:
+ * - Serves /templates/* and /data/* from packages/core during `vite dev`
  */
-function atsResumePlugin() {
+function atsResumeDevAssetsPlugin() {
     const coreDir = resolve(__dirname, "../core");
     return {
-        name: "ats-resume",
+        name: "ats-resume-dev-assets",
+        apply: "serve", // IMPORTANT: do not run on `vite build`
         configureServer(server) {
-            // Serve core static assets (templates + example data)
             server.middlewares.use((req, res, next) => {
                 if (!req.url)
                     return next();
@@ -22,18 +21,18 @@ function atsResumePlugin() {
                     const filePath = resolve(coreDir, `.${req.url}`);
                     try {
                         const content = readFileSync(filePath, "utf-8");
-                        const ext = req.url.split(".").pop();
+                        const ext = req.url.split(".").pop()?.toLowerCase();
                         const mime = {
-                            html: "text/html",
-                            css: "text/css",
-                            json: "application/json",
+                            html: "text/html; charset=utf-8",
+                            css: "text/css; charset=utf-8",
+                            json: "application/json; charset=utf-8",
                         };
-                        res.setHeader("Content-Type", mime[ext ?? ""] ?? "text/plain");
+                        res.setHeader("Content-Type", mime[ext ?? ""] ?? "text/plain; charset=utf-8");
                         res.end(content);
                         return;
                     }
                     catch {
-                        // file not found — fall through
+                        // fall through
                     }
                 }
                 next();
@@ -42,10 +41,12 @@ function atsResumePlugin() {
     };
 }
 export default defineConfig({
-    plugins: [react(), tailwindcss(), atsResumePlugin()],
+    plugins: [react(), tailwindcss(), atsResumeDevAssetsPlugin()],
     resolve: {
         alias: {
             "@": resolve(__dirname, "./src"),
+            "@ats-resume/core": resolve(__dirname, "../core/src/index.ts"),
+            "@ats-resume/core/": resolve(__dirname, "../core/src/"),
         },
     },
 });
