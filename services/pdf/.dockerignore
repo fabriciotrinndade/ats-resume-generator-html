@@ -1,0 +1,7 @@
+node_modules
+.pnpm-store
+.git
+.vercel
+dist
+coverage
+*.log
