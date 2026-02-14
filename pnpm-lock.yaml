@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@ats-resume/core':
+        specifier: workspace:*
+        version: link:packages/core
     devDependencies:
       '@types/node':
         specifier: ^22.2.0
