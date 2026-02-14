@@ -1,6 +1,6 @@
 {
-  "installCommand": "pnpm install -r --frozen-lockfile",
-  "buildCommand": "pnpm -r build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter @ats-resume/core build && pnpm --filter @ats-resume/web build",
   "outputDirectory": "packages/web/dist",
   "rewrites": [{ "source": "/(.*)", "destination": "/" }]
 }
