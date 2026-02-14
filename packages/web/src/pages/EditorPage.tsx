@@ -202,7 +202,7 @@ export default function EditorPage() {
   const handleExportPdf = async () => {
     setIsExporting(true);
     try {
-      await exportPdf();
+      await exportPdf(previewHtml);
     } finally {
       setIsExporting(false);
     }

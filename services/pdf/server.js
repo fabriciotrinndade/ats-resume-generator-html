@@ -13,13 +13,15 @@ app.use(express.json({ limit: "15mb" }));
 app.get("/health", (_req, res) => res.status(200).json({ ok: true }));
 
 app.post("/export-pdf", async (req, res) => {
+  let browser;
+
   try {
     const html = req.body?.html;
     if (typeof html !== "string" || !html.trim()) {
       return res.status(400).json({ error: "Missing html" });
     }
 
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       args: chromium.args,
       defaultViewport: chromium.defaultViewport,
       executablePath: await chromium.executablePath(),
@@ -29,21 +31,27 @@ app.post("/export-pdf", async (req, res) => {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
 
-    const pdf = await page.pdf({
+    const pdfBuffer = await page.pdf({
       format: "A4",
       printBackground: true,
       preferCSSPageSize: true,
     });
 
-    await browser.close();
+    res.writeHead(200, {
+      "Content-Type": "application/pdf",
+      "Content-Disposition": 'attachment; filename="cv.pdf"',
+      "Content-Length": pdfBuffer.length,
+      "Cache-Control": "no-store",
+    });
 
-    res.setHeader("Content-Type", "application/pdf");
-    res.status(200).send(pdf);
+    res.end(pdfBuffer);
   } catch (e) {
     res.status(500).json({
       error: "PDF export failed",
       details: String(e?.stack || e),
     });
+  } finally {
+    if (browser) await browser.close().catch(() => {});
   }
 });
 

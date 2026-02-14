@@ -10,13 +10,15 @@
   },
   "dependencies": {
     "@ats-resume/core": "workspace:*",
+    "@sparticuz/chromium": "^123.0.1",
+    "puppeteer-core": "^24.37.3",
     "react": "^19.1.0",
+    "react-aria-components": "^1.9.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.0",
-    "react-aria-components": "^1.9.0",
-    "tailwindcss-react-aria-components": "^2.0.0",
     "tailwind-merge": "^3.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "tailwindcss-react-aria-components": "^2.0.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.0",

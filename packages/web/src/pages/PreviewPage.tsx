@@ -22,10 +22,7 @@ export default function PreviewPage() {
             >
               <span className="hidden sm:inline">←</span> Back
             </button>
-            <button
-              onClick={exportPdf}
-              className="inline-flex items-center gap-1.5 rounded-lg px-3 sm:px-4 py-2 text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700 border border-brand-600 shadow-xs transition-colors cursor-pointer"
-            >
+            <button onClick={() => exportPdf(html)} className="...">
               Export PDF
             </button>
           </div>

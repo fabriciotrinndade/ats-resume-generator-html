@@ -1,14 +1,5 @@
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": "packages/web/dist",
-  "functions": {
-    "api/export-pdf.ts": {
-      "includeFiles": "packages/core/templates/**"
-    }
-  },
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/templates/(.*)", "destination": "/templates/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
+  "installCommand": "pnpm install -r --frozen-lockfile",
+  "buildCommand": "pnpm -r build",
+  "outputDirectory": "packages/web/dist"
 }

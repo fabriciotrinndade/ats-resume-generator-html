@@ -376,26 +376,30 @@ export function useResumeStore() {
     URL.revokeObjectURL(url);
   }, [resume]);
 
-  const exportPdf = async () => {
-    const res = await fetch("/api/export-pdf", {
+  const exportPdf = useCallback(async (html: string) => {
+    const base = import.meta.env.VITE_PDF_SERVICE_URL;
+    if (!base) throw new Error("Missing VITE_PDF_SERVICE_URL");
+
+    const res = await fetch(`${base}/export-pdf`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(resume),
+      body: JSON.stringify({ html }),
     });
 
-    if (!res.ok) {
-      const txt = await res.text();
-      throw new Error(txt);
-    }
+    if (!res.ok) throw new Error(await res.text());
 
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
+
     const a = document.createElement("a");
     a.href = url;
     a.download = "cv.pdf";
+    document.body.appendChild(a);
     a.click();
+    a.remove();
+
     URL.revokeObjectURL(url);
-  };
+  }, []);
 
   const toJson = useMemo(() => JSON.stringify(resume, null, 2), [resume]);
 
