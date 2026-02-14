@@ -7,8 +7,12 @@
     "build": "pnpm --filter @ats-resume/core build && pnpm --filter @ats-resume/web build",
     "preview": "pnpm -C packages/web preview"
   },
+  "dependencies": {
+    "@ats-resume/core": "workspace:*",
+    "@vercel/node": "^5.6.3"
+  },
   "devDependencies": {
-    "@types/node": "^22.2.0",
-    "typescript": "^5.9.0"
+    "@types/node": "^22.19.11",
+    "typescript": "^5.9.3"
   }
 }

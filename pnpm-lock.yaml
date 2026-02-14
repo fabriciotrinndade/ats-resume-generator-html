@@ -7,12 +7,19 @@ settings:
 importers:
 
   .:
+    dependencies:
+      '@ats-resume/core':
+        specifier: workspace:*
+        version: link:packages/core
+      '@vercel/node':
+        specifier: ^5.6.3
+        version: 5.6.3(rollup@4.57.1)
     devDependencies:
       '@types/node':
-        specifier: ^22.2.0
+        specifier: ^22.19.11
         version: 22.19.11
       typescript:
-        specifier: ^5.9.0
+        specifier: ^5.9.3
         version: 5.9.3
 
   packages/core:
@@ -29,9 +36,6 @@ importers:
       '@ats-resume/core':
         specifier: workspace:*
         version: link:../core
-      '@vercel/node':
-        specifier: ^5.6.3
-        version: 5.6.3(rollup@4.57.1)
       react:
         specifier: ^19.1.0
         version: 19.2.4
@@ -57,9 +61,6 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.0
         version: 4.1.18(vite@6.4.1(@types/node@22.19.11)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0))
-      '@types/node':
-        specifier: ^22.19.11
-        version: 22.19.11
       '@types/react':
         specifier: ^19.1.0
         version: 19.2.14
@@ -79,7 +80,7 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
       vite:
-        specifier: ^6.3.0
+        specifier: ^6.4.1
         version: 6.4.1(@types/node@22.19.11)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)
 
 packages:

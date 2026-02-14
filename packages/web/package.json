@@ -16,8 +16,7 @@
     "react-aria-components": "^1.9.0",
     "tailwindcss-react-aria-components": "^2.0.0",
     "tailwind-merge": "^3.3.0",
-    "tailwindcss-animate": "^1.0.7",
-    "@vercel/node": "^5.6.3"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.0",
@@ -26,18 +25,7 @@
     "@vitejs/plugin-react": "^4.5.0",
     "playwright": "^1.50.0",
     "tailwindcss": "^4.1.0",
-    "@types/node": "^22.19.11",
     "typescript": "^5.9.3",
-    "vite": "^6.3.0"
-  },
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    },
-    "./server": {
-      "types": "./dist/server.d.ts",
-      "default": "./dist/server.js"
-    }
+    "vite": "^6.4.1"
   }
 }
