@@ -4,8 +4,7 @@
   "private": true,
   "type": "module",
   "files": [
-    "dist",
-    "templates"
+    "dist"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,18 +12,12 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "./server": {
-      "types": "./dist/server.d.ts",
-      "default": "./dist/server.js"
-    },
-    "./templates/*": "./templates/*"
+    }
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json"
   },
-  "dependencies": {
-    "@sparticuz/chromium": "^123.0.1",
-    "playwright-core": "^1.58.2"
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }

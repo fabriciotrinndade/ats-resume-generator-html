@@ -1,11 +1,16 @@
 {
-  "name": "@ats-resume/pdf-service",
+  "name": "ats-resume-generator-html",
   "private": true,
-  "type": "module",
-  "dependencies": {
-    "@sparticuz/chromium": "123.0.1",
-    "cors": "^2.8.6",
-    "express": "^4.19.2",
-    "puppeteer-core": "24.37.3"
+  "packageManager": "pnpm@10.29.3",
+  "engines": {
+    "node": "20.x"
+  },
+  "scripts": {
+    "dev": "pnpm -C packages/web dev",
+    "build": "pnpm -r build",
+    "preview": "pnpm -C packages/web preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3"
   }
 }
