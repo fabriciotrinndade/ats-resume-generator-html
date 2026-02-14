@@ -21,12 +21,10 @@
     "./templates/*": "./templates/*"
   },
   "scripts": {
-    "build:core": "pnpm --filter @ats-resume/core build",
-    "dev": "pnpm build:core && pnpm --filter @ats-resume/web dev"
+    "build": "tsc -p tsconfig.build.json"
   },
   "dependencies": {
     "@sparticuz/chromium": "^123.0.1",
-    "playwright-core": "^1.58.2",
-    "@ats-resume/core": "workspace:*"
+    "playwright-core": "^1.58.2"
   }
 }
