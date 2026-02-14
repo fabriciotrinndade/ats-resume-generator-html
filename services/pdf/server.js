@@ -1,9 +1,23 @@
 import express from "express";
 import chromium from "@sparticuz/chromium";
 import puppeteer from "puppeteer-core";
+import cors from "cors";
 
 const app = express();
 app.use(express.json({ limit: "15mb" }));
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://ats-resume-generator-html-web-72uq-n2tgpuaar.vercel.app",
+      "https://ats-resume-generator-html-web-72uq.vercel.app",
+    ],
+    methods: ["GET", "POST", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+  }),
+);
+app.options("*", cors());
 
 app.get("/health", (_req, res) => res.status(200).json({ ok: true }));
 
