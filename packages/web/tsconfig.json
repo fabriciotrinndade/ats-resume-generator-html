@@ -6,8 +6,9 @@
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
+
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": false,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
@@ -23,5 +24,6 @@
       "@/*": ["src/*"]
     }
   },
-  "include": ["src", "vite-env.d.ts"]
+  "include": ["src", "vite-env.d.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
