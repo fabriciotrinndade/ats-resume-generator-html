@@ -153,46 +153,24 @@ export function renderContactHtml(data: ResumeData): string {
   return parts.join("<br />");
 }
 
-/**
- * Renders a complete HTML resume from structured data + template + CSS.
- * The CSS is inlined into the HTML (critical for PDF export).
- */
 export function renderResumeHtml(
   data: ResumeData,
   templateHtml: string,
   css: string,
 ): string {
-  const safe = {
-    ...data,
-    name: data.name ?? "",
-    title: data.title ?? "",
-    summary: data.summary ?? "",
-    email: data.email ?? "",
-    phone_display: data.phone_display ?? "",
-    phone_e164: data.phone_e164 ?? "",
-    location: data.location ?? "",
-    linkedin_url: data.linkedin_url ?? "",
-    github_url: data.github_url ?? "",
-    website_url: data.website_url ?? "",
-    skills: data.skills ?? [],
-    projects: data.projects ?? [],
-    experience: data.experience ?? [],
-    education: data.education ?? [],
-    languages: data.languages ?? [],
-  };
+  const inlined = templateHtml.replace(
+    /<link\b[^>]*rel=["']stylesheet["'][^>]*href=["'][^"']*style\.css[^"']*["'][^>]*>/i,
+    `<style>${css}</style>`,
+  );
 
-  return templateHtml
-    .replace(
-      `<link rel="stylesheet" href="./style.css" />`,
-      `<style>${css}</style>`,
-    )
-    .replaceAll("{{NAME}}", escapeHtml(safe.name))
-    .replaceAll("{{TITLE}}", escapeHtml(safe.title))
-    .replaceAll("{{CONTACT_HTML}}", renderContactHtml(safe))
-    .replaceAll("{{SUMMARY}}", escapeHtml(safe.summary))
-    .replaceAll("{{SKILLS_HTML}}", renderSkillsHtml(safe.skills))
-    .replaceAll("{{PROJECTS_HTML}}", renderProjectsHtml(safe.projects))
-    .replaceAll("{{EXPERIENCE_HTML}}", renderExperienceHtml(safe.experience))
-    .replaceAll("{{EDUCATION_HTML}}", renderEducationHtml(safe.education))
-    .replaceAll("{{LANGUAGES_HTML}}", renderLanguagesHtml(safe.languages));
+  return inlined
+    .replaceAll("{{NAME}}", escapeHtml(data.name))
+    .replaceAll("{{TITLE}}", escapeHtml(data.title))
+    .replaceAll("{{CONTACT_HTML}}", renderContactHtml(data))
+    .replaceAll("{{SUMMARY}}", escapeHtml(data.summary))
+    .replaceAll("{{SKILLS_HTML}}", renderSkillsHtml(data.skills))
+    .replaceAll("{{PROJECTS_HTML}}", renderProjectsHtml(data.projects))
+    .replaceAll("{{EXPERIENCE_HTML}}", renderExperienceHtml(data.experience))
+    .replaceAll("{{EDUCATION_HTML}}", renderEducationHtml(data.education))
+    .replaceAll("{{LANGUAGES_HTML}}", renderLanguagesHtml(data.languages));
 }
