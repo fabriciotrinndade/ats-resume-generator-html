@@ -1,5 +1,5 @@
 {
   "devCommand": "pnpm -C packages/web dev --port $PORT",
-  "buildCommand": "pnpm build:core && pnpm -C packages/web build",
+  "buildCommand": "pnpm build",
   "outputDirectory": "packages/web/dist"
 }

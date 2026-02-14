@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "dev": "pnpm -C packages/web dev",
-    "build": "pnpm -r build",
+    "build:core": "pnpm --filter @ats-resume/core build",
+    "build": "pnpm build:core && pnpm -C packages/web build",
     "preview": "pnpm -C packages/web preview"
   },
   "devDependencies": {
