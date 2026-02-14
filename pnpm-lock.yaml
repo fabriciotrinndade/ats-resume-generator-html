@@ -26,6 +26,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@ats-resume/core':
+        specifier: workspace:*
+        version: 'link:'
       '@sparticuz/chromium':
         specifier: ^123.0.1
         version: 123.0.1
