@@ -8,7 +8,6 @@ dist/
 
 # generated files
 *.pdf
-*.html
 
 # caches
 .playwright/
