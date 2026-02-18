@@ -7,6 +7,8 @@ export type {
   Experience,
   Education,
   Language,
+  ResumeLabels,
+  SectionKey,
 } from "./types";
 
 export {

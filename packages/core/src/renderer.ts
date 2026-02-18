@@ -5,7 +5,24 @@ import type {
   Experience,
   Education,
   Language,
+  SectionKey,
 } from "./types.js";
+
+const DEFAULT_LABELS: Record<SectionKey, string> = {
+  resume: "Resume",
+  personal: "Personal",
+  summary: "Summary",
+  skills: "Skills",
+  projects: "Projects",
+  experience: "Experience",
+  education: "Education",
+  languages: "Languages",
+};
+
+function getLabel(data: ResumeData, key: SectionKey): string {
+  const v = data.labels?.[key];
+  return v && v.trim() ? v.trim() : DEFAULT_LABELS[key];
+}
 
 export function escapeHtml(s: string): string {
   return String(s)
@@ -163,14 +180,36 @@ export function renderResumeHtml(
     `<style>${css}</style>`,
   );
 
-  return inlined
-    .replaceAll("{{NAME}}", escapeHtml(data.name))
-    .replaceAll("{{TITLE}}", escapeHtml(data.title))
-    .replaceAll("{{CONTACT_HTML}}", renderContactHtml(data))
-    .replaceAll("{{SUMMARY}}", escapeHtml(data.summary))
-    .replaceAll("{{SKILLS_HTML}}", renderSkillsHtml(data.skills))
-    .replaceAll("{{PROJECTS_HTML}}", renderProjectsHtml(data.projects))
-    .replaceAll("{{EXPERIENCE_HTML}}", renderExperienceHtml(data.experience))
-    .replaceAll("{{EDUCATION_HTML}}", renderEducationHtml(data.education))
-    .replaceAll("{{LANGUAGES_HTML}}", renderLanguagesHtml(data.languages));
+  return (
+    inlined
+      .replaceAll("{{NAME}}", escapeHtml(data.name))
+      .replaceAll("{{TITLE}}", escapeHtml(data.title))
+
+      // labels
+      .replaceAll("{{LABEL_RESUME}}", escapeHtml(getLabel(data, "resume")))
+      .replaceAll("{{LABEL_SUMMARY}}", escapeHtml(getLabel(data, "summary")))
+      .replaceAll("{{LABEL_SKILLS}}", escapeHtml(getLabel(data, "skills")))
+      .replaceAll("{{LABEL_PROJECTS}}", escapeHtml(getLabel(data, "projects")))
+      .replaceAll(
+        "{{LABEL_EXPERIENCE}}",
+        escapeHtml(getLabel(data, "experience")),
+      )
+      .replaceAll(
+        "{{LABEL_EDUCATION}}",
+        escapeHtml(getLabel(data, "education")),
+      )
+      .replaceAll(
+        "{{LABEL_LANGUAGES}}",
+        escapeHtml(getLabel(data, "languages")),
+      )
+
+      // existing html
+      .replaceAll("{{CONTACT_HTML}}", renderContactHtml(data))
+      .replaceAll("{{SUMMARY}}", escapeHtml(data.summary))
+      .replaceAll("{{SKILLS_HTML}}", renderSkillsHtml(data.skills))
+      .replaceAll("{{PROJECTS_HTML}}", renderProjectsHtml(data.projects))
+      .replaceAll("{{EXPERIENCE_HTML}}", renderExperienceHtml(data.experience))
+      .replaceAll("{{EDUCATION_HTML}}", renderEducationHtml(data.education))
+      .replaceAll("{{LANGUAGES_HTML}}", renderLanguagesHtml(data.languages))
+  );
 }

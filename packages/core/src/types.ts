@@ -34,6 +34,18 @@ export interface Language {
   note: string;
 }
 
+export type SectionKey =
+  | "resume"
+  | "personal"
+  | "summary"
+  | "skills"
+  | "projects"
+  | "experience"
+  | "education"
+  | "languages";
+
+export type ResumeLabels = Partial<Record<SectionKey, string>>;
+
 export interface ResumeData {
   name: string;
   title: string;
@@ -50,4 +62,6 @@ export interface ResumeData {
   experience: Experience[];
   education: Education[];
   languages: Language[];
+
+  labels?: ResumeLabels;
 }

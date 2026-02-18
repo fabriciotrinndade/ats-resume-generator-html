@@ -1,0 +1,29 @@
+.bg-circle1 {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ff9a3c, #ff7d03);
+  top: 20%;
+  left: 80%;
+  transform: translate(-50%, -50%);
+  filter: blur(200px);
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.bg-circle2 {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, hsl(34, 100%, 53%), #ff7300);
+  top: 95%;
+  left: 15%;
+  transform: translate(-50%, -50%);
+  filter: blur(200px);
+  opacity: 0.2;
+  z-index: -1;
+  pointer-events: none;
+}

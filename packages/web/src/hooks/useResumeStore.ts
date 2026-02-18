@@ -7,6 +7,7 @@ import type {
   Education,
   Language,
   ProjectLink,
+  SectionKey,
 } from "@ats-resume/core";
 
 /* ── helpers ─────────────────────────────────────────────────────── */
@@ -28,13 +29,15 @@ function emptyResume(): ResumeData {
     experience: [],
     education: [],
     languages: [],
+    labels: {}, // ✅ habilita custom labels
   };
 }
 
 /* ── action types ────────────────────────────────────────────────── */
 
 type Action =
-  | { type: "SET_FIELD"; field: keyof ResumeData; value: string }
+  | { type: "SET_FIELD"; field: keyof ResumeData; value: any } // ✅ value não só string
+  | { type: "SET_LABEL"; key: SectionKey; value: string } // ✅ labels editáveis
   | { type: "REPLACE_ALL"; data: ResumeData }
   | { type: "RESET" }
   // Skills
@@ -97,8 +100,21 @@ function resumeReducer(state: ResumeData, action: Action): ResumeData {
     case "SET_FIELD":
       return { ...state, [action.field]: action.value };
 
+    case "SET_LABEL":
+      return {
+        ...state,
+        labels: {
+          ...(state.labels ?? {}),
+          [action.key]: action.value,
+        },
+      };
+
     case "REPLACE_ALL":
-      return { ...action.data };
+      return {
+        ...emptyResume(),
+        ...action.data,
+        labels: action.data.labels ?? {},
+      };
 
     case "RESET":
       return emptyResume();
@@ -165,9 +181,7 @@ function resumeReducer(state: ResumeData, action: Action): ResumeData {
       return {
         ...state,
         projects: state.projects.map((p, i) =>
-          i === action.index
-            ? { ...p, bullets: action.value.split("\n").filter(Boolean) }
-            : p,
+          i === action.index ? { ...p, bullets: action.value.split("\n") } : p,
         ),
       };
 
@@ -241,9 +255,7 @@ function resumeReducer(state: ResumeData, action: Action): ResumeData {
       return {
         ...state,
         experience: state.experience.map((e, i) =>
-          i === action.index
-            ? { ...e, bullets: action.value.split("\n").filter(Boolean) }
-            : e,
+          i === action.index ? { ...e, bullets: action.value.split("\n") } : e,
         ),
       };
 
@@ -300,8 +312,14 @@ export function useResumeStore() {
   const [resume, dispatch] = useReducer(resumeReducer, undefined, emptyResume);
 
   const setField = useCallback(
-    (field: keyof ResumeData, value: string) =>
+    (field: keyof ResumeData, value: any) =>
       dispatch({ type: "SET_FIELD", field, value }),
+    [],
+  );
+
+  const setLabel = useCallback(
+    (key: SectionKey, value: string) =>
+      dispatch({ type: "SET_LABEL", key, value }),
     [],
   );
 
@@ -312,7 +330,7 @@ export function useResumeStore() {
         alert("Invalid file: expected a JSON object with resume fields.");
         return;
       }
-      // Merge with empty resume so missing fields get defaults
+
       const base = emptyResume();
       const data: ResumeData = {
         ...base,
@@ -349,12 +367,17 @@ export function useResumeStore() {
         languages: Array.isArray(raw.languages)
           ? raw.languages
           : base.languages,
+        labels:
+          typeof raw.labels === "object" &&
+          raw.labels &&
+          !Array.isArray(raw.labels)
+            ? raw.labels
+            : base.labels,
       };
+
       dispatch({ type: "REPLACE_ALL", data });
     } catch {
-      alert(
-        "Could not read this file. Make sure it's a valid JSON file (e.g. one exported from this app).",
-      );
+      alert("Could not read this file. Make sure it's a valid JSON file.");
     }
   }, []);
 
@@ -411,6 +434,7 @@ export function useResumeStore() {
     resume,
     dispatch,
     setField,
+    setLabel, // ✅ usar no EditorPage para inputs de títulos
     loadJson,
     loadExample,
     exportJson,

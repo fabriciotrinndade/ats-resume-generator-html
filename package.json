@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.28.0",
+  "engines": {
+    "node": "20.x"
+  },
   "files": [
     "dist"
   ],

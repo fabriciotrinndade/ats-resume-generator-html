@@ -5,6 +5,7 @@ import { RouteProvider } from "./providers/route-provider";
 import { ThemeProvider } from "./providers/theme-provider";
 import App from "./App";
 import "./styles/globals.css";
+import "./styles/background.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

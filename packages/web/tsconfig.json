@@ -6,7 +6,7 @@
     "lib": ["ES2021", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-
+    "types": ["node"],
     "moduleResolution": "Bundler",
     "allowImportingTsExtensions": false,
     "isolatedModules": true,
@@ -26,6 +26,6 @@
       "@ats-resume/core/*": ["../core/src/*"]
     }
   },
-  "include": ["src", "vite-env.d.ts"],
+  "include": ["src", "vite-env.d.ts", "api/redis.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

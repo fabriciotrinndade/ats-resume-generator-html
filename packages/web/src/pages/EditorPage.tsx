@@ -1,7 +1,9 @@
+// packages/web/src/pages/EditorPage.tsx
 import { useState, useRef, useEffect, type ChangeEvent } from "react";
 import { useResumeStore } from "@/hooks/useResumeStore";
 import { usePreviewHtml } from "@/hooks/usePreviewHtml";
 import type { ResumeData } from "@ats-resume/core";
+import Footer from "@/components/Footer";
 
 /* ── tiny reusable bits ──────────────────────────────────────────── */
 
@@ -50,7 +52,7 @@ function Input({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-lg border border-border-primary bg-bg-primary px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-2 focus:ring-focus-ring focus:border-border-brand transition-colors"
+      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-1 focus:ring-warning-500 focus:border-warning-500 transition-colors"
     />
   );
 }
@@ -75,7 +77,7 @@ function Textarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full rounded-lg border border-border-primary bg-bg-primary px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-2 focus:ring-focus-ring focus:border-border-brand transition-colors resize-y"
+      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-1 focus:ring-warning-500 focus:border-warning-500 transition-colors resize-y"
     />
   );
 }
@@ -94,10 +96,9 @@ function Button({
   const base =
     "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold shadow-xs transition-colors cursor-pointer";
   const variants = {
-    primary:
-      "bg-brand-600 text-white hover:bg-brand-700 border border-brand-600",
+    primary: "bg-warning-500 text-white hover:bg-warning-600",
     secondary:
-      "bg-bg-primary text-text-secondary hover:bg-bg-primary_hover border border-border-primary",
+      "bg-bg-transparent text-text-secondary hover:bg-bg-primary_hover border border-border-primary",
     destructive:
       "bg-error-50 text-error-700 hover:bg-error-100 border border-error-300",
   };
@@ -131,10 +132,7 @@ function ConfirmModal({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* backdrop */}
       <div className="absolute inset-0 bg-bg-overlay/60" onClick={onCancel} />
-
-      {/* dialog */}
       <div className="relative bg-bg-primary rounded-xl border border-border-secondary shadow-xl p-6 max-w-md w-full mx-4">
         <h3 className="text-lg font-semibold text-text-primary mb-2">
           {title}
@@ -155,17 +153,34 @@ function ConfirmModal({
 
 /* ── tab data ────────────────────────────────────────────────────── */
 
-const TABS = [
-  "Personal",
-  "Summary",
-  "Skills",
-  "Projects",
-  "Experience",
-  "Education",
-  "Languages",
+import type { SectionKey } from "@ats-resume/core";
+const TAB_KEYS = [
+  "personal",
+  "headings",
+  "summary",
+  "skills",
+  "projects",
+  "experience",
+  "education",
+  "languages",
 ] as const;
 
-type TabId = (typeof TABS)[number];
+type TabKey = (typeof TAB_KEYS)[number];
+
+const DEFAULT_LABELS: Record<TabKey, string> = {
+  personal: "Personal",
+  headings: "Headings",
+  summary: "Summary",
+  skills: "Skills",
+  projects: "Projects",
+  experience: "Experience",
+  education: "Education",
+  languages: "Languages",
+};
+
+function tabLabel(key: TabKey) {
+  return DEFAULT_LABELS[key];
+}
 
 /* ── main page ───────────────────────────────────────────────────── */
 
@@ -174,6 +189,7 @@ export default function EditorPage() {
     resume,
     dispatch,
     setField,
+    setLabel,
     loadJson,
     loadExample,
     exportJson,
@@ -181,7 +197,8 @@ export default function EditorPage() {
     resetResume,
   } = useResumeStore();
 
-  const [activeTab, setActiveTab] = useState<TabId>("Personal");
+  // ✅ hooks ONLY inside component
+  const [activeTab, setActiveTab] = useState<TabKey>("personal");
   const [showPreview, setShowPreview] = useState(false);
   const [showClearModal, setShowClearModal] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
@@ -214,8 +231,10 @@ export default function EditorPage() {
   };
 
   return (
-    <div className="min-h-screen bg-bg-secondary">
-      {/* ── clear confirmation modal ── */}
+    <div className="min-h-screen relative overflow-hidden">
+      <div className="bg-circle1"></div>
+      <div className="bg-circle2"></div>
+
       <ConfirmModal
         open={showClearModal}
         title="Clear all data?"
@@ -225,17 +244,21 @@ export default function EditorPage() {
         onCancel={() => setShowClearModal(false)}
       />
 
-      {/* ── header ────────────────────────────────── */}
-      <header className="sticky top-0 z-30 bg-bg-primary border-b border-border-secondary shadow-xs">
+      <header className="sticky top-0 z-30 border-b border-border-secondary shadow-xs">
         <div className="max-w-[var(--max-width-container)] mx-auto flex items-center justify-between px-4 py-3 gap-4">
           <h1 className="text-display-xs font-bold text-text-primary whitespace-nowrap">
-            ATSRG
+            <a href="/">
+              <img
+                src="/assets/images/ats-flow.png"
+                alt="ATS Flow"
+                className="h-12 w-auto object-contain"
+              />
+            </a>
           </h1>
 
-          {/* ── mobile hamburger ── */}
           <button
             onClick={() => setMobileMenuOpen((o) => !o)}
-            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border-primary bg-bg-primary text-text-secondary hover:bg-bg-primary_hover transition-colors cursor-pointer"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border-primary bg-bg-transparent text-text-secondary hover:bg-bg-primary_hover transition-colors cursor-pointer"
             aria-label="Menu"
           >
             {mobileMenuOpen ? (
@@ -268,9 +291,7 @@ export default function EditorPage() {
             )}
           </button>
 
-          {/* ── desktop buttons ── */}
           <div className="hidden lg:flex items-center gap-6">
-            {/* ── load data ── */}
             <div className="flex items-center gap-2">
               <Button variant="secondary" onClick={loadExample}>
                 Load Example
@@ -285,7 +306,6 @@ export default function EditorPage() {
 
             <div className="w-px h-6 bg-border-secondary" />
 
-            {/* ── export ── */}
             <div className="flex items-center gap-2">
               <Button variant="secondary" onClick={exportJson}>
                 Export JSON
@@ -301,7 +321,6 @@ export default function EditorPage() {
 
             <div className="w-px h-6 bg-border-secondary" />
 
-            {/* ── view ── */}
             <Button
               variant="secondary"
               onClick={() => setShowPreview((p) => !p)}
@@ -311,7 +330,6 @@ export default function EditorPage() {
 
             <div className="w-px h-6 bg-border-secondary" />
 
-            {/* ── danger zone ── */}
             <Button
               variant="destructive"
               onClick={() => setShowClearModal(true)}
@@ -321,10 +339,8 @@ export default function EditorPage() {
           </div>
         </div>
 
-        {/* ── mobile menu dropdown ── */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-border-secondary bg-bg-primary px-4 py-3 space-y-3 animate-in slide-in-from-top-2 duration-150">
-            {/* load */}
+          <div className="lg:hidden border-t border-border-secondary bg-bg-transparent px-4 py-3 space-y-3 animate-in slide-in-from-top-2 duration-150">
             <div>
               <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
                 Load Data
@@ -350,7 +366,7 @@ export default function EditorPage() {
                 </Button>
               </div>
             </div>
-            {/* export */}
+
             <div className="border-t border-border-secondary pt-3">
               <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
                 Export
@@ -379,7 +395,7 @@ export default function EditorPage() {
                 </Button>
               </div>
             </div>
-            {/* view */}
+
             <div className="border-t border-border-secondary pt-3">
               <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
                 View
@@ -394,7 +410,7 @@ export default function EditorPage() {
                 {showPreview ? "Hide Preview" : "Show Preview"}
               </Button>
             </div>
-            {/* danger */}
+
             <div className="border-t border-border-secondary pt-3">
               <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
                 Danger Zone
@@ -413,7 +429,6 @@ export default function EditorPage() {
         )}
       </header>
 
-      {/* hidden file input (shared by desktop & mobile) */}
       <input
         ref={fileRef}
         type="file"
@@ -422,60 +437,59 @@ export default function EditorPage() {
         onChange={handleImport}
       />
 
-      {/* ── body ──────────────────────────────────── */}
-      <div className="max-w-[var(--max-width-container)] mx-auto flex flex-col lg:flex-row gap-4 lg:gap-6 p-4">
-        {/* editor pane */}
+      <div className="w-full max-w-none mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-30 py-7">
         <div
           className={`flex-1 min-w-0 ${showPreview ? "lg:max-w-[50%]" : ""}`}
         >
-          {/* tabs */}
           <nav className="flex gap-1 mb-4 lg:mb-6 overflow-x-auto pb-1 -mx-4 px-4 lg:mx-0 lg:px-0">
-            {TABS.map((tab) => (
+            {TAB_KEYS.map((key) => (
               <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors cursor-pointer ${
-                  activeTab === tab
-                    ? "bg-brand-50 text-brand-700 border border-brand-200"
+                key={key}
+                onClick={() => setActiveTab(key)}
+                className={`px-2 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors cursor-pointer ${
+                  activeTab === key
+                    ? "bg-warning-20 text-warning-500 border border-warning-500"
                     : "text-text-tertiary hover:text-text-secondary hover:bg-bg-primary_hover border border-transparent"
                 }`}
               >
-                {tab}
+                {tabLabel(key)}
               </button>
             ))}
           </nav>
 
-          {/* tab content */}
-          <div className="bg-bg-primary rounded-xl border border-border-secondary shadow-xs p-4 lg:p-6">
-            {activeTab === "Personal" && (
+          <div className="rounded-xl border border-border-secondary shadow-xs p-4 lg:p-6">
+            {activeTab === "headings" && (
+              <HeadingsTab resume={resume} setLabel={setLabel} />
+            )}
+
+            {activeTab === "personal" && (
               <PersonalTab resume={resume} setField={setField} />
             )}
-            {activeTab === "Summary" && (
+            {activeTab === "summary" && (
               <SummaryTab resume={resume} setField={setField} />
             )}
-            {activeTab === "Skills" && (
+            {activeTab === "skills" && (
               <SkillsTab resume={resume} dispatch={dispatch} />
             )}
-            {activeTab === "Projects" && (
+            {activeTab === "projects" && (
               <ProjectsTab resume={resume} dispatch={dispatch} />
             )}
-            {activeTab === "Experience" && (
+            {activeTab === "experience" && (
               <ExperienceTab resume={resume} dispatch={dispatch} />
             )}
-            {activeTab === "Education" && (
+            {activeTab === "education" && (
               <EducationTab resume={resume} dispatch={dispatch} />
             )}
-            {activeTab === "Languages" && (
+            {activeTab === "languages" && (
               <LanguagesTab resume={resume} dispatch={dispatch} />
             )}
           </div>
         </div>
 
-        {/* preview pane */}
         {showPreview && (
           <div className="w-full lg:w-1/2 lg:min-w-[400px] lg:sticky lg:top-[73px] lg:self-start">
-            <div className="bg-bg-primary rounded-xl border border-border-secondary shadow-xs overflow-hidden">
-              <div className="px-4 py-2 bg-bg-secondary border-b border-border-secondary">
+            <div className="rounded-xl border border-border-secondary shadow-xs overflow-hidden">
+              <div className="px-4 py-2 border-b border-border-secondary">
                 <span className="text-sm font-medium text-text-tertiary">
                   Live Preview
                 </span>
@@ -483,13 +497,18 @@ export default function EditorPage() {
               <iframe
                 title="Resume Preview"
                 srcDoc={previewHtml}
-                className="w-full bg-white"
+                className="w-full"
                 style={{ height: "calc(100vh - 140px)" }}
                 sandbox="allow-same-origin"
               />
             </div>
           </div>
         )}
+      </div>
+      <div className="w-full">
+        <div className=" mx-auto px-4 flex-col lg:px-50 py-7">
+          <Footer />
+        </div>
       </div>
     </div>
   );
@@ -624,7 +643,7 @@ function SummaryTab({
   );
 }
 
-/* ── Skill items input (local state to allow commas) ─────────────── */
+/* ── Skill items input ───────────────────────────────────────────── */
 
 function SkillItemsInput({
   items,
@@ -635,7 +654,6 @@ function SkillItemsInput({
 }) {
   const [raw, setRaw] = useState(items.join(", "));
 
-  // Sync from external changes (e.g. Load Example, Import JSON)
   useEffect(() => {
     setRaw(items.join(", "));
   }, [items.join(",")]);
@@ -647,7 +665,7 @@ function SkillItemsInput({
       onChange={(e) => setRaw(e.target.value)}
       onBlur={() => onChange(raw)}
       placeholder="JavaScript, Node.js, React"
-      className="w-full rounded-lg border border-border-primary bg-bg-primary px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-2 focus:ring-focus-ring focus:border-border-brand transition-colors"
+      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-1 focus:ring-warning-500 focus:border-warning-500 transition-colors"
     />
   );
 }
@@ -682,7 +700,7 @@ function SkillsTab({
       {resume.skills.map((group, i) => (
         <div
           key={i}
-          className="flex gap-3 items-start p-4 rounded-lg border border-border-secondary bg-bg-secondary"
+          className="flex gap-3 items-start p-4 rounded-lg border border-border-secondary bg-bg-transparent"
         >
           <div className="flex-1 space-y-3">
             <div>
@@ -762,6 +780,7 @@ function ProjectsTab({
               Remove
             </Button>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <Label>Title</Label>
@@ -794,6 +813,7 @@ function ProjectsTab({
               />
             </div>
           </div>
+
           <div>
             <Label>Bullet Points (one per line)</Label>
             <Textarea
@@ -806,7 +826,6 @@ function ProjectsTab({
             />
           </div>
 
-          {/* links */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-text-secondary">
@@ -819,6 +838,7 @@ function ProjectsTab({
                 + Add Link
               </Button>
             </div>
+
             {(proj.links ?? []).map((link, li) => (
               <div key={li} className="flex gap-2 items-end">
                 <div className="flex-1">
@@ -915,6 +935,7 @@ function ExperienceTab({
               Remove
             </Button>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <Label>Role</Label>
@@ -962,6 +983,7 @@ function ExperienceTab({
               />
             </div>
           </div>
+
           <div>
             <Label>Bullet Points (one per line)</Label>
             <Textarea
@@ -1022,6 +1044,7 @@ function EducationTab({
               Remove
             </Button>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <Label>Title / Degree</Label>
@@ -1116,6 +1139,7 @@ function LanguagesTab({
               Remove
             </Button>
           </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
             <div>
               <Label>Language</Label>
@@ -1165,6 +1189,78 @@ function LanguagesTab({
           </div>
         </div>
       ))}
+    </div>
+  );
+}
+
+/* ── Headings ───────────────────────────────────────────────────── */
+
+function HeadingsTab({
+  resume,
+  setLabel,
+}: {
+  resume: ResumeData;
+  setLabel: (k: SectionKey, v: string) => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <SectionTitle>Section Headings</SectionTitle>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <Label>Summary title</Label>
+          <Input
+            value={resume.labels?.summary ?? ""}
+            onChange={(v) => setLabel("summary", v)}
+            placeholder="SUMMARY"
+          />
+        </div>
+
+        <div>
+          <Label>Skills title</Label>
+          <Input
+            value={resume.labels?.skills ?? ""}
+            onChange={(v) => setLabel("skills", v)}
+            placeholder="SKILLS"
+          />
+        </div>
+
+        <div>
+          <Label>Projects title</Label>
+          <Input
+            value={resume.labels?.projects ?? ""}
+            onChange={(v) => setLabel("projects", v)}
+            placeholder="PROJECTS"
+          />
+        </div>
+
+        <div>
+          <Label>Experience title</Label>
+          <Input
+            value={resume.labels?.experience ?? ""}
+            onChange={(v) => setLabel("experience", v)}
+            placeholder="EXPERIENCE"
+          />
+        </div>
+
+        <div>
+          <Label>Education title</Label>
+          <Input
+            value={resume.labels?.education ?? ""}
+            onChange={(v) => setLabel("education", v)}
+            placeholder="EDUCATION"
+          />
+        </div>
+
+        <div>
+          <Label>Languages title</Label>
+          <Input
+            value={resume.labels?.languages ?? ""}
+            onChange={(v) => setLabel("languages", v)}
+            placeholder="LANGUAGES"
+          />
+        </div>
+      </div>
     </div>
   );
 }
