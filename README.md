@@ -1,5 +1,5 @@
 <div align="center">
-<h1>ATS Flow</h1>
+<img src="packages/web/public/assets/images/ats-flow.png" alt="Logo" width="300" />
 
 ATS-first resume builder focused on clarity, portability, and full control.
 
@@ -178,3 +178,4 @@ Contributions are welcome.
 - Commit your changes
 
 - Open a Pull Request
+
