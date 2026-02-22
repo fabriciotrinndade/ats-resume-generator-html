@@ -1,5 +1,5 @@
 <div align="center">
-<img src="packages/web/public/assets/images/ats-flow.png" alt="Logo" width="300" />
+<img src="packages/web/public/assets/images/banner-git-ats.png" alt="Logo" width="700" />
 
 ATS-first resume builder focused on clarity, portability, and full control.
 
@@ -178,4 +178,5 @@ Contributions are welcome.
 - Commit your changes
 
 - Open a Pull Request
+
 
