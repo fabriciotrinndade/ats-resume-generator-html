@@ -106,6 +106,9 @@ git clone https://github.com/fabriciotrinndade/ats-resume-generator-html
 
 # Install dependencies
 pnpm install
+
+# Build internal packages (required)
+pnpm -r build
 ```
 
 Configure environment:
