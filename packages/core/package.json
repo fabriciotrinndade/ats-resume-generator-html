@@ -18,11 +18,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "import": "./dist/index.js"
     },
     "./server": {
       "types": "./dist/server.d.ts",
-      "default": "./dist/server.js"
+      "import": "./dist/server.js"
     }
   },
   "scripts": {
