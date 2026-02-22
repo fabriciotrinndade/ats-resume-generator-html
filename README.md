@@ -5,6 +5,11 @@ ATS-first resume builder focused on clarity, portability, and full control.
 
 Create, edit, and export professional resumes using a clean visual editor.
 
+<p align="center">
+  <strong>🇺🇸 English</strong> |
+  <a href="./README.pt-BR.md">🇧🇷 Português</a>
+</p>
+
 <p>
   <img
     src="https://img.shields.io/github/package-json/v/fabriciotrinndade/ats-resume-generator-html?style=flat-square"
@@ -181,5 +186,3 @@ Contributions are welcome.
 - Commit your changes
 
 - Open a Pull Request
-
-
