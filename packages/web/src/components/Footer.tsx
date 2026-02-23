@@ -1,3 +1,4 @@
+import {version} from '../../package.json'
 export default function Footer() {
   return (
     <footer className="homeFooter">
@@ -11,6 +12,8 @@ export default function Footer() {
               className="homeFooter__logo"
             />
           </div>
+
+          <p className="homeFooter__version">ATS Flow {version}</p>
 
           <p className="homeFooter__text">
             A free and open-source resume builder focused on ATS-first
