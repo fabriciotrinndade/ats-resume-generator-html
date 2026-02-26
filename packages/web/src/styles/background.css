@@ -1,29 +1,28 @@
-.bg-circle1 {
+.light-beam {
   position: fixed;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #ff9a3c, #ff7d03);
-  top: 20%;
-  left: 80%;
-  transform: translate(-50%, -50%);
-  filter: blur(200px);
-  opacity: 0.15;
-  z-index: -1;
+  inset: 0;
   pointer-events: none;
+  z-index: -1;
 }
 
-.bg-circle2 {
-  position: fixed;
-  width: 400px;
-  height: 400px;
-  border-radius: 50%;
-  background: radial-gradient(circle, hsl(34, 100%, 53%), #ff7300);
-  top: 95%;
-  left: 15%;
-  transform: translate(-50%, -50%);
-  filter: blur(200px);
-  opacity: 0.2;
-  z-index: -1;
-  pointer-events: none;
+.light-beam::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 480px;
+  height: 240vh;
+  transform: translate(-50%, -50%) rotate(-100deg);
+
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgb(255, 113, 31) 30%,
+    rgb(255, 255, 255) 50%,
+    rgb(6, 155, 255) 70%,
+    transparent 100%
+  );
+
+  filter: blur(80px);
+  opacity: 0.4;
 }

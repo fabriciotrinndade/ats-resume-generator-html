@@ -4,6 +4,11 @@ import { useResumeStore } from "@/hooks/useResumeStore";
 import { usePreviewHtml } from "@/hooks/usePreviewHtml";
 import type { ResumeData } from "@ats-resume/core";
 import Footer from "@/components/Footer";
+import { BiImport } from "react-icons/bi";
+import { BiExport } from "react-icons/bi";
+import { FaFileAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { FaFilePdf } from "react-icons/fa6";
 
 /* ── tiny reusable bits ──────────────────────────────────────────── */
 
@@ -52,7 +57,7 @@ function Input({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-1 focus:ring-warning-500 focus:border-warning-500 transition-colors"
+      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:bg-black/5 transition-colors"
     />
   );
 }
@@ -77,7 +82,7 @@ function Textarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-1 focus:ring-warning-500 focus:border-warning-500 transition-colors resize-y"
+      className="w-full rounded-lg border border-border-secondary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:bg-black/5 transition-colors resize-y"
     />
   );
 }
@@ -85,7 +90,7 @@ function Textarea({
 function Button({
   children,
   onClick,
-  variant = "secondary",
+  variant = "primary",
   className = "",
 }: {
   children: React.ReactNode;
@@ -94,13 +99,11 @@ function Button({
   className?: string;
 }) {
   const base =
-    "inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold shadow-xs transition-colors cursor-pointer";
+    "inline-flex items-center gap-1.5 px-4 py-2 rounded-2xl text-sm font-semibold transition-colors cursor-pointer";
   const variants = {
-    primary: "bg-warning-500 text-white hover:bg-warning-600",
-    secondary:
-      "bg-bg-transparent text-text-secondary hover:bg-bg-primary_hover border border-border-primary",
-    destructive:
-      "bg-error-50 text-error-700 hover:bg-error-100 border border-error-300",
+    primary: "text-white/90 hover:text-white/70",
+    secondary: "text-white/90 bg-black hover:text-white/70",
+    destructive: "text-error-500 bg-error-100 hover:text-error-400",
   };
   return (
     <button
@@ -197,7 +200,7 @@ export default function EditorPage() {
     resetResume,
   } = useResumeStore();
 
-  // ✅ hooks ONLY inside component
+  // hooks ONLY inside component
   const [activeTab, setActiveTab] = useState<TabKey>("personal");
   const [showPreview, setShowPreview] = useState(false);
   const [showClearModal, setShowClearModal] = useState(false);
@@ -232,9 +235,6 @@ export default function EditorPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      <div className="bg-circle1"></div>
-      <div className="bg-circle2"></div>
-
       <ConfirmModal
         open={showClearModal}
         title="Clear all data?"
@@ -244,31 +244,30 @@ export default function EditorPage() {
         onCancel={() => setShowClearModal(false)}
       />
 
-      <header className="sticky top-0 z-30 border-b border-border-secondary shadow-xs">
+      <header className="bg-black/95 sticky top-0 z-30">
         <div className="max-w-[var(--max-width-container)] mx-auto flex items-center justify-between px-4 py-3 gap-4">
-          <h1 className="text-display-xs font-bold text-text-primary whitespace-nowrap">
-            <a href="/">
-              <img
-                src="/assets/images/ats-flow.png"
-                alt="ATS Flow"
-                className="h-12 w-auto object-contain"
-              />
-            </a>
-          </h1>
+          <a href="/">
+            <img
+              src="/assets/images/ats-flow.png"
+              alt="ATS Flow"
+              className="h-6 w-auto object-contain"
+            />
+          </a>
+          <h1 className="text-display-xs font-bold text-text-primary whitespace-nowrap"></h1>
 
           <button
             onClick={() => setMobileMenuOpen((o) => !o)}
-            className="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border-primary bg-bg-transparent text-text-secondary hover:bg-bg-primary_hover transition-colors cursor-pointer"
+            className="lg:hidden inline-flex items-center justify-center w-10 h-10 bg-bg-transparent text-text-white transition-colors cursor-pointer"
             aria-label="Menu"
           >
             {mobileMenuOpen ? (
               <svg
-                width="20"
-                height="20"
+                width="30"
+                height="30"
                 viewBox="0 0 20 20"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="3"
                 strokeLinecap="round"
               >
                 <line x1="4" y1="4" x2="16" y2="16" />
@@ -276,12 +275,12 @@ export default function EditorPage() {
               </svg>
             ) : (
               <svg
-                width="20"
-                height="20"
+                width="30"
+                height="30"
                 viewBox="0 0 20 20"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="3"
                 strokeLinecap="round"
               >
                 <line x1="3" y1="5" x2="17" y2="5" />
@@ -291,140 +290,96 @@ export default function EditorPage() {
             )}
           </button>
 
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center gap-2">
             <div className="flex items-center gap-2">
-              <Button variant="secondary" onClick={loadExample}>
-                Load Example
-              </Button>
-              <Button
-                variant="secondary"
-                onClick={() => fileRef.current?.click()}
-              >
+              <Button onClick={() => fileRef.current?.click()}>
+                <BiImport size={20} />
                 Import JSON
               </Button>
             </div>
 
-            <div className="w-px h-6 bg-border-secondary" />
-
             <div className="flex items-center gap-2">
-              <Button variant="secondary" onClick={exportJson}>
+              <Button onClick={exportJson}>
+                <BiExport size={20} />
                 Export JSON
               </Button>
+
+              <Button onClick={loadExample}>
+                <FaFileAlt size={16} />
+                Load Example
+              </Button>
+
               <Button
-                variant="primary"
                 onClick={handleExportPdf}
                 className={isExporting ? "opacity-60 pointer-events-none" : ""}
               >
+                <FaFilePdf size={16} />
                 {isExporting ? "Exporting…" : "Export PDF"}
               </Button>
             </div>
 
-            <div className="w-px h-6 bg-border-secondary" />
-
-            <Button
-              variant="secondary"
-              onClick={() => setShowPreview((p) => !p)}
-            >
-              {showPreview ? "Hide Preview" : "Show Preview"}
-            </Button>
-
-            <div className="w-px h-6 bg-border-secondary" />
-
-            <Button
-              variant="destructive"
-              onClick={() => setShowClearModal(true)}
-            >
+            <Button onClick={() => setShowClearModal(true)}>
+              <MdDelete size={18} />
               Clear All
             </Button>
           </div>
         </div>
 
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-border-secondary bg-bg-transparent px-4 py-3 space-y-3 animate-in slide-in-from-top-2 duration-150">
+          <div className="lg:hidden border-t border-border-secondary/20 bg-bg-transparent px-4 py-3 space-y-3 animate-in slide-in-from-top-2 duration-150">
             <div>
-              <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
-                Load Data
-              </p>
               <div className="flex flex-col gap-2">
                 <Button
-                  variant="secondary"
-                  onClick={() => {
-                    loadExample();
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Load Example
-                </Button>
-                <Button
-                  variant="secondary"
                   onClick={() => {
                     fileRef.current?.click();
                     setMobileMenuOpen(false);
                   }}
                 >
+                  <BiImport size={20} />
                   Import JSON
                 </Button>
               </div>
             </div>
 
-            <div className="border-t border-border-secondary pt-3">
-              <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
-                Export
-              </p>
-              <div className="flex flex-col gap-2">
-                <Button
-                  variant="secondary"
-                  onClick={() => {
-                    exportJson();
-                    setMobileMenuOpen(false);
-                  }}
-                >
-                  Export JSON
-                </Button>
-                <Button
-                  variant="primary"
-                  onClick={() => {
-                    handleExportPdf();
-                    setMobileMenuOpen(false);
-                  }}
-                  className={
-                    isExporting ? "opacity-60 pointer-events-none" : ""
-                  }
-                >
-                  {isExporting ? "Exporting…" : "Export PDF"}
-                </Button>
-              </div>
-            </div>
-
-            <div className="border-t border-border-secondary pt-3">
-              <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
-                View
-              </p>
+            <div className="flex flex-col gap-2">
               <Button
-                variant="secondary"
                 onClick={() => {
-                  setShowPreview((p) => !p);
+                  exportJson();
                   setMobileMenuOpen(false);
                 }}
               >
-                {showPreview ? "Hide Preview" : "Show Preview"}
+                <BiExport size={20} />
+                Export JSON
               </Button>
-            </div>
-
-            <div className="border-t border-border-secondary pt-3">
-              <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wider mb-2">
-                Danger Zone
-              </p>
               <Button
-                variant="destructive"
                 onClick={() => {
-                  setShowClearModal(true);
+                  loadExample();
                   setMobileMenuOpen(false);
                 }}
               >
-                Clear All
+                <FaFileAlt size={16} />
+                Load Example
+              </Button>
+              <Button
+                onClick={() => {
+                  handleExportPdf();
+                  setMobileMenuOpen(false);
+                }}
+                className={isExporting ? "opacity-60 pointer-events-none" : ""}
+              >
+                <FaFilePdf size={16} />
+                {isExporting ? "Exporting…" : "Export PDF"}
               </Button>
             </div>
+            <Button
+              onClick={() => {
+                setShowClearModal(true);
+                setMobileMenuOpen(false);
+              }}
+            >
+              <MdDelete size={18} />
+              Clear All
+            </Button>
           </div>
         )}
       </header>
@@ -437,19 +392,19 @@ export default function EditorPage() {
         onChange={handleImport}
       />
 
-      <div className="w-full max-w-none mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-30 py-7">
+      <div className="w-full max-w-none mt-3 mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-40 py-7">
         <div
           className={`flex-1 min-w-0 ${showPreview ? "lg:max-w-[50%]" : ""}`}
         >
-          <nav className="flex gap-1 mb-4 lg:mb-6 overflow-x-auto pb-1 -mx-4 px-4 lg:mx-0 lg:px-0">
+          <nav className="flex gap-1 mb-2 lg:mb-3 overflow-x-auto pb-1 -mx-4 px-4 lg:mx-0 lg:px-0">
             {TAB_KEYS.map((key) => (
               <button
                 key={key}
                 onClick={() => setActiveTab(key)}
-                className={`px-2 py-2 text-sm font-medium rounded-lg whitespace-nowrap transition-colors cursor-pointer ${
+                className={`px-2 py-2 text-sm font-medium whitespace-nowrap transition-colors cursor-pointer ${
                   activeTab === key
-                    ? "bg-warning-20 text-warning-500 border border-warning-500"
-                    : "text-text-tertiary hover:text-text-secondary hover:bg-bg-primary_hover border border-transparent"
+                    ? "bg-blue-100 rounded-3xl text-black"
+                    : "text-text-tertiary hover:text-black rounded-2xl hover:bg-bg-primary_hover border border-transparent"
                 }`}
               >
                 {tabLabel(key)}
@@ -457,7 +412,7 @@ export default function EditorPage() {
             ))}
           </nav>
 
-          <div className="rounded-xl border border-border-secondary shadow-xs p-4 lg:p-6">
+          <div className="rounded-xl shadow-xl backdrop-blur-sm bg-white/5 border border-white/20 p-4 lg:p-6">
             {activeTab === "headings" && (
               <HeadingsTab resume={resume} setLabel={setLabel} />
             )}
@@ -485,30 +440,26 @@ export default function EditorPage() {
             )}
           </div>
         </div>
-
-        {showPreview && (
-          <div className="w-full lg:w-1/2 lg:min-w-[400px] lg:sticky lg:top-[73px] lg:self-start">
-            <div className="rounded-xl border border-border-secondary shadow-xs overflow-hidden">
-              <div className="px-4 py-2 border-b border-border-secondary">
-                <span className="text-sm font-medium text-text-tertiary">
-                  Live Preview
-                </span>
-              </div>
-              <iframe
-                title="Resume Preview"
-                srcDoc={previewHtml}
-                className="w-full"
-                style={{ height: "calc(100vh - 140px)" }}
-                sandbox="allow-same-origin"
-              />
+        <div className="w-full lg:w-1/2 lg:min-w-[400px] lg:sticky lg:top-[73px] lg:self-start">
+          <div className="rounded-xl border border-border-secondary shadow-xs overflow-hidden">
+            <div className="px-4 py-2 border-b border-border-secondary">
+              <span className="text-sm font-medium text-text-tertiary">
+                Live Preview
+              </span>
             </div>
+            <iframe
+              title="Resume Preview"
+              srcDoc={previewHtml}
+              className="w-full"
+              style={{ height: "calc(100vh - 140px)" }}
+              sandbox="allow-same-origin"
+            />
           </div>
-        )}
+        </div>
       </div>
       <div className="w-full">
-        <div className=" mx-auto px-4 flex-col lg:px-50 py-7">
-          <Footer />
-        </div>
+        <div className=" mx-auto px-4 flex-col lg:px-50 py-7"></div>
+        <Footer />
       </div>
     </div>
   );
@@ -665,7 +616,7 @@ function SkillItemsInput({
       onChange={(e) => setRaw(e.target.value)}
       onBlur={() => onChange(raw)}
       placeholder="JavaScript, Node.js, React"
-      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:ring-1 focus:ring-warning-500 focus:border-warning-500 transition-colors"
+      className="w-full rounded-lg border border-border-primary bg-bg-transparent px-3 py-2 text-sm text-text-primary shadow-xs placeholder:text-text-placeholder outline-none focus:bg-black/5 transition-colors"
     />
   );
 }

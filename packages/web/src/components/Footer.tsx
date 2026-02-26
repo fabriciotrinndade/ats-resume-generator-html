@@ -1,7 +1,7 @@
-import {version} from '../../package.json'
+import { version } from "../../package.json";
 export default function Footer() {
   return (
-    <footer className="homeFooter">
+    <footer className="homeFooter bg-black/95">
       <div className="homeFooter__grid">
         {/* Brand */}
         <div className="homeFooter__col">
@@ -9,16 +9,20 @@ export default function Footer() {
             <img
               src="/assets/images/ats-flow.png"
               alt="ATS Flow"
-              className="homeFooter__logo"
+              className="homeFooter__logo h-5"
             />
           </div>
 
-          <p className="homeFooter__version">ATS Flow {version}</p>
+          <p className="homeFooter__version text-white">v{version}</p>
 
           <p className="homeFooter__text">
             A free and open-source resume builder focused on ATS-first
             structure, clarity, and portability.
           </p>
+
+          <span className="homeFooter__muted">
+            © {new Date().getFullYear()} ATS Flow
+          </span>
         </div>
 
         {/* Community */}
@@ -70,12 +74,6 @@ export default function Footer() {
             </a>
           </span>
         </div>
-      </div>
-
-      <div className="homeFooter__bottom">
-        <span className="homeFooter__muted">
-          © {new Date().getFullYear()} ATS Flow
-        </span>
       </div>
     </footer>
   );
