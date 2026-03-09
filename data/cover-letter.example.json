@@ -1,0 +1,19 @@
+{
+  "name": "YURI CARLITO MANHIÇA",
+  "title": "Desenvolvedor de Sistemas",
+  "email": "yurimanhica4@gmail.com",
+  "phone_display": "(+258) 85 21 29 634",
+  "location": "Maputo, Moçambique",
+
+  "date": "Maputo, 2026",
+
+  "letter": {
+    "greeting": "Prezado(s) Senhor(es),",
+
+    "intro": "Venho por meio desta apresentar a minha candidatura. Sou desenvolvedor de sistemas com mais de quatro anos de experiência em ambientes corporativos. O meu trabalho concentra-se no desenvolvimento e integração de sistemas de gestão empresarial, desde a arquitetura até à entrega, com foco em soluções estáveis, escaláveis e que se mantêm eficazes a longo prazo.",
+
+    "body": "Trabalho essencialmente com .NET e C#, integração de APIs REST e SOAP, bases de dados relacionais e suporte técnico N2. Não me limito a escrever código que apenas compila, preocupo-me com a manutenibilidade, com a performance e com o impacto que cada decisão técnica tem no produto final. Tenho experiência em sistemas legados e tenho vivência em trabalhar em equipe, sendo capaz de herdar código pouco documentado, diagnosticar corretamente os problemas e implementar soluções sem comprometer o que já funciona. Aplico práticas como SOLID e Clean Code para desenvolver código limpo, reutilizável e sustentável, contribuindo para que o trabalho de toda a equipa seja mais previsível e eficiente.",
+
+    "closing": "Neste momento procuro novas oportunidades onde possa continuar a crescer tecnicamente e contribuir para projetos desafiadores. Não procuro apenas um ambiente onde já conheço todas as respostas, mas um contexto onde possa aprender, adaptar-me e colaborar na construção de soluções com valor. Coloco-me desde já disponível para uma conversa, caso considerem que o meu perfil possa contribuir para a vossa equipa."
+  }
+}

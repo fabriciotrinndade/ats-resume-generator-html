@@ -2,12 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
-//Currículo Vitae
-const distHtml = path.resolve(process.cwd(), "dist", "cv.html");
-const outPdf = path.resolve(process.cwd(), "dist", "cv.pdf");
+//Carta de Apresentação
+const distHtml = path.resolve(process.cwd(), "dist", "cover-letter.html");
+const outPdf = path.resolve(process.cwd(), "dist", "cover-letter.pdf");
 
 if (!fs.existsSync(distHtml)) {
-  console.error("dist/cv.html não existe. Rode: npm run build");
+  console.error("dist/cover-letter.html não existe. Rode: npm run build");
   process.exit(1);
 }
 

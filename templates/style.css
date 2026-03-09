@@ -131,3 +131,103 @@ a {
     margin: 0.5in;
   }
 }
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Corpo */
+body {
+  font-family: Arial, sans-serif; /* mais elegante para cartas */
+  font-size: 12pt;
+  color: #111;
+  line-height: 1.6; /* mais espaçamento entre linhas */
+  background: #fdfdfd;
+  padding: 40px 30px;
+}
+
+/* Container central */
+.container {
+  max-width: 700px;
+  margin: auto;
+  background: #fff;
+  padding: 50px 50px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  font-size: 24pt;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  font-size: 11pt;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.contact {
+  font-size: 10pt;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Seção da carta */
+.section {
+  margin-bottom: 20px;
+}
+
+.date {
+  align-items: end;
+  font-size: 10pt;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.paragraph {
+  margin-bottom: 18px; /* mais espaçamento entre parágrafos */
+  text-align: justify; /* deixa o texto mais profissional */
+}
+
+/* Assinatura */
+.signature {
+  margin-top: 30px;
+  font-size: 12pt;
+  line-height: 1.4;
+}
+
+/* Links (email, site) */
+a {
+  color: #1a0dab;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Impressão */
+@media print {
+  body {
+    background: #fff;
+    padding: 0;
+  }
+
+  .container {
+    box-shadow: none;
+    border: none;
+    padding: 40px;
+  }
+}

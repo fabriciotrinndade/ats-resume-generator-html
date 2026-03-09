@@ -101,8 +101,25 @@ function languagesHtml(langs) {
       (l) => `
 <div class="item">
   <div class="item-header">
-    <div class="item-title">${escapeHtml(l.name)} — ${escapeHtml(l.level)}</div>
+    <div class="item-title">${escapeHtml(l.name)} — <span class="item-subtitle">${escapeHtml(l.level)}</span></div>
     <div class="item-date">${escapeHtml(l.note)}</div>
+  </div>
+</div>`,
+    )
+    .join("\n");
+}
+
+function referencesHtml(refs) {
+  return refs
+    .map(
+      (r) => `
+<div class="item">
+  <div class="item-header">
+    <div>
+      <div class="item-title">${escapeHtml(r.name)}</div>
+      <div class="item-subtitle">${escapeHtml(r.position)} — ${escapeHtml(r.company)}</div>
+    </div>
+    <div class="item-date">${escapeHtml(r.phone)}</div>
   </div>
 </div>`,
     )
@@ -123,7 +140,10 @@ const html = tpl
   .replaceAll("{{LINKEDIN_URL}}", data.linkedin_url)
   .replaceAll("{{GITHUB_URL}}", data.github_url)
   .replaceAll("{{WEBSITE_URL}}", data.website_url)
-  .replaceAll("{{LINKEDIN_TEXT}}", data.linkedin_url.replace(/^https?:\/\//, ""))
+  .replaceAll(
+    "{{LINKEDIN_TEXT}}",
+    data.linkedin_url.replace(/^https?:\/\//, ""),
+  )
   .replaceAll("{{GITHUB_TEXT}}", data.github_url.replace(/^https?:\/\//, ""))
   .replaceAll("{{WEBSITE_TEXT}}", data.website_url.replace(/^https?:\/\//, ""))
   .replaceAll("{{SUMMARY}}", escapeHtml(data.summary))
@@ -131,7 +151,8 @@ const html = tpl
   .replaceAll("{{PROJECTS_HTML}}", projectsHtml(data.projects))
   .replaceAll("{{EXPERIENCE_HTML}}", experienceHtml(data.experience))
   .replaceAll("{{EDUCATION_HTML}}", educationHtml(data.education))
-  .replaceAll("{{LANGUAGES_HTML}}", languagesHtml(data.languages));
+  .replaceAll("{{LANGUAGES_HTML}}", languagesHtml(data.languages))
+  .replaceAll("{{REFERENCES_HTML}}", referencesHtml(data.references));
 
 fs.writeFileSync(path.join(distDir, "cv.html"), html, "utf8");
 console.log("Gerado: dist/cv.html");

@@ -101,20 +101,22 @@ This is the only file you need to change.
 
 ```bash
 npm run build
+npm run build:letter
 ```
 
 Output:
 
-`dist/cv.html`
+`dist/cover-letter/cv.html`
 
 3. Generate PDF resume
 
-```
+```bash
 npm run pdf
+npm run pdf:letter
 ```
 
 Output:
-`dist/cv.pdf`
+`dist/cover-letter/cv.pdf`
 
 ## The PDF:
 
@@ -126,4 +128,3 @@ Output:
 ## Output Example
 
 ![Screenshot](data/cv-example.png)
-

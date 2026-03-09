@@ -1,102 +1,170 @@
 {
-  "name": "FABRICIO TRINDADE",
-  "title": "Full Stack • Web Development",
-  "email": "example@email.com",
-  "phone_e164": "+10000000000",
-  "phone_display": "(00) 00000-0000",
-  "location": "Remote / Brazil",
-  "linkedin_url": "https://www.linkedin.com/in/example-profile",
-  "github_url": "https://github.com/example-user",
-  "website_url": "https://example.com",
+  "name": "YURI CARLITO MANHIÇA",
+  "title": "Desenvolvedor de Sistemas · .NET & C#",
+  "email": "yurimanhica4@gmail.com",
+  "phone_e164": "+258852129634",
+  "phone_display": "(+258) 85 21 29 634",
+  "location": "Maputo, Moçambique",
+  "linkedin_url": "https://www.linkedin.com/in/yuri-manhi%C3%A7a/",
+  "github_url": "https://github.com/yurimanhica-dev",
+  "website_url": "https://yurimanhica.vercel.app/",
 
-  "summary": "Computer Science student with a strong foundation in programming logic and hands-on experience building web applications and APIs. Familiar with cloud fundamentals, system troubleshooting, and structured problem-solving. Seeking an internship focused on cloud infrastructure, monitoring, and automation, with emphasis on clean architecture and ATS-friendly documentation.",
+  "summary": "Desenvolvedor de sistemas com mais de 4 anos de experiência em ambientes corporativos, especializado em backend com .NET e C#. Tenho trabalhado em produtos reais — ERPs em produção, APIs consumidas por sistemas críticos, frontends integrados do zero. Preocupo-me com código que dura: arquitetura limpa, testes, documentação e decisões que a equipa seguinte consegue entender.",
 
   "skills": [
     {
-      "group": "Programming",
-      "items": ["JavaScript", "Node.js", "HTML", "CSS", "SQL"]
+      "group": "Linguagens",
+      "items": ["C#", ".NET", "SQL", "HTML", "CSS", "JavaScript"]
     },
     {
-      "group": "Frameworks",
-      "items": ["Next.js", "Express.js", "React"]
-    },
-    {
-      "group": "Databases",
-      "items": ["PostgreSQL", "MongoDB", "ORM concepts"]
-    },
-    {
-      "group": "Cloud & Infrastructure",
+      "group": "Frameworks & Bibliotecas",
       "items": [
-        "Cloud fundamentals",
-        "Monitoring concepts",
-        "Networking basics",
-        "Linux basics"
+        "ASP.NET Core",
+        "Entity Framework Core",
+        "React",
+        "Next.js",
+        "Node.js",
+        "Axios",
+        "Bootstrap",
+        "AdminLTE"
       ]
     },
     {
-      "group": "Tools",
-      "items": ["Git", "GitHub", "Docker", "CI/CD concepts"]
+      "group": "Bases de Dados",
+      "items": ["MS SQL Server", "PostgreSQL", "MySQL"]
+    },
+    {
+      "group": "Arquitetura & Engenharia",
+      "items": [
+        "Clean Architecture",
+        "CQRS",
+        "SOLID / DRY / KISS",
+        "Design Patterns (Repository, Unit of Work, Factory, Singleton)",
+        "Segurança com Argon2id + pepper"
+      ]
+    },
+    {
+      "group": "Testes & Qualidade",
+      "items": [
+        "xUnit",
+        "Mocking",
+        "Testes de Integração",
+        "Selenium",
+        "Cypress (e2e)"
+      ]
+    },
+    {
+      "group": "DevOps & Ferramentas",
+      "items": [
+        "Git / GitHub",
+        "GitHub Actions",
+        "CI/CD",
+        "Azure DevOps",
+        "Docker",
+        "Agile (Scrum / Kanban)"
+      ]
+    },
+    {
+      "group": "Documentação & Relatórios",
+      "items": [
+        "Swagger",
+        "Scalar",
+        "Postman",
+        "QuestPDF",
+        "PdfSharp",
+        "Crystal Reports (SAP)"
+      ]
     }
   ],
 
   "projects": [
     {
-      "title": "Full Stack Web Application",
-      "stack": "Node.js, REST APIs, PostgreSQL",
+      "title": "ERP Desktop + Web (Sistema de Gestão Empresarial)",
+      "stack": ".NET · C# · SQL Server · Crystal Reports (SAP) · Visual Basic",
       "bullets": [
-        "Designed and implemented a full stack web application with a clear separation of concerns",
-        "Built RESTful APIs with authentication and basic access control",
-        "Applied structured data modeling and version control best practices"
-      ],
-      "links": [
-        {
-          "label": "Repository",
-          "url": "https://github.com/example-user/sample-project"
-        }
+        "Mantive e evoluí módulos críticos em produção, alinhando entregas a requisitos reais de clientes",
+        "Implementei rotinas automatizadas de backup e recuperação de dados, eliminando pontos únicos de falha",
+        "Otimizei queries SQL com impacto direto na performance de relatórios e operações de alto volume"
       ]
     },
     {
-      "title": "Personal Automation Tool",
-      "stack": "JavaScript, Node.js",
+      "title": "APIs RESTful para Integração de Sistemas",
+      "stack": "ASP.NET Core · SQL Server · PostgreSQL · xUnit · QuestPDF · PdfSharp · Swagger · Scalar",
       "bullets": [
-        "Developed a small automation script to streamline repetitive tasks",
-        "Focused on code readability, maintainability, and documentation",
-        "Practiced modular design and error handling"
+        "Desenhei e desenvolvi APIs consumidas por sistemas internos e clientes externos, com contrato documentado",
+        "Cobri os endpoints com testes unitários e de integração, reduzindo regressões em deploys",
+        "Gerei relatórios PDF dinâmicos diretamente via API utilizando QuestPDF e PdfSharp"
+      ]
+    },
+    {
+      "title": "Frontend para Consumo de APIs",
+      "stack": "Next.js · React · Axios · Bootstrap · AdminLTE",
+      "bullets": [
+        "Construí interfaces responsivas integradas com APIs REST, com foco em usabilidade e performance",
+        "Organizei componentes reutilizáveis seguindo separação de responsabilidades e Clean Code",
+        "Implementei autenticação, gestão de estado e fluxos protegidos end-to-end"
       ]
     }
   ],
 
   "experience": [
     {
-      "role": "Technical Support Analyst",
-      "company": "Example Technology Company",
-      "date": "2021 — Present",
+      "role": "Desenvolvedor de Sistemas",
+      "company": "MALESOFTWARE",
+      "date": "Mar 2023 — Presente",
       "bullets": [
-        "Provided technical support and troubleshooting for systems and network-related issues",
-        "Assumed operational coordination responsibilities on multiple occasions, organizing tasks and prioritizing incidents",
-        "Communicated technical problems clearly to both technical and non-technical stakeholders"
+        "Desenvolvo e mantenho aplicações desktop e web em .NET/C# utilizadas por clientes corporativos",
+        "Projeto e integro APIs REST entre sistemas internos e plataformas de terceiros",
+        "Implemento mecanismos de segurança, backup automatizado e recuperação de dados",
+        "Identifico e resolvo gargalos de performance em queries SQL e camadas de serviço",
+        "Contribuo para decisões de arquitetura e revisão de código dentro da equipa"
+      ]
+    },
+    {
+      "role": "Técnico de Suporte N2",
+      "company": "MALESOFTWARE",
+      "date": "Jun 2022 — Mar 2023",
+      "bullets": [
+        "Diagnostiquei e resolvi incidentes de nível 2 em sistemas de gestão empresarial",
+        "Fiz a ponte entre utilizadores e equipa de desenvolvimento, traduzindo problemas técnicos em linguagem de negócio",
+        "Ganhei contexto profundo sobre os sistemas antes de transitar para o desenvolvimento — base que uso diariamente"
       ]
     }
   ],
 
   "education": [
     {
-      "title": "Bachelor’s Degree in Computer Science",
-      "subtitle": "Example University",
-      "date": "In progress — Expected 2029"
-    },
-    {
-      "title": "Associate Degree in Systems Analysis and Development",
-      "subtitle": "Example University",
-      "date": "Completed — 2023"
+      "title": "Administração de Sistemas de Redes de Informáticas",
+      "subtitle": "Instituto Superior Dom Bosco (ISDB)",
+      "date": "2019 — 2023"
     }
   ],
 
   "languages": [
     {
-      "name": "English",
-      "level": "Intermediate",
-      "note": "Technical reading and conversational skills"
+      "name": "Português",
+      "level": "Fluente",
+      "note": "Língua materna"
+    },
+    {
+      "name": "Inglês",
+      "level": "Intermediário",
+      "note": "Leitura técnica e comunicação profissional"
+    }
+  ],
+
+  "references": [
+    {
+      "name": "Rosa Manuel",
+      "position": "Chefe do Departamento de Recursos Humanos",
+      "company": "FFH, fp",
+      "phone": "Disponível mediante solicitação"
+    },
+    {
+      "name": "Raimundo Chongo",
+      "position": "IT Security Manager",
+      "company": "SIMO",
+      "phone": "Disponível mediante solicitação"
     }
   ]
 }
